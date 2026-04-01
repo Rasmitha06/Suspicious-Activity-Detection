@@ -1,4 +1,4 @@
-#  Suspicious Activity Detection from CCTV Footage
+#  Suspicious-Activity-Detection
 
 > An intelligent surveillance system that automatically detects suspicious human behavior in CCTV footage using Deep Learning and Computer Vision.
 
