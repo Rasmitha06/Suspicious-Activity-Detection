@@ -1,0 +1,7 @@
+tensorflow==2.21.0 
+keras==3.13.2 
+numpy==2.4.4 
+opencv-python==4.13.0.92 
+imutils 
+pillow==12.1.1 
+h5py 

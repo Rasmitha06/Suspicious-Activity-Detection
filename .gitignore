@@ -1,0 +1,6 @@
+frames/ 
+videos/ 
+__pycache__/ 
+*.pyc 
+.idea/ 
+.vscode/ 
