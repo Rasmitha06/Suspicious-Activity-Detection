@@ -7,22 +7,16 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Problem Statement](#problem-statement)
-- [Solution](#solution)
-- [Demo](#demo)
 - [Features](#features)
+- [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [System Requirements](#system-requirements)
 - [Installation](#installation)
 - [How to Run](#how-to-run)
 - [How It Works](#how-it-works)
-- [Project Structure](#project-structure)
+- [Demo](#demo)
 - [Model Details](#model-details)
-- [Advantages](#advantages)
-- [Limitations](#limitations)
-- [Future Scope](#future-scope)
 - [Team](#team)
-- [Conclusion](#conclusion)
 
 ---
 
@@ -31,30 +25,6 @@
 In today's world, CCTV cameras are installed everywhere — malls, banks, streets, and public spaces. However, manually monitoring hundreds of live camera feeds is practically impossible. This project solves that problem by automating the detection of suspicious activity using a trained deep learning model.
 
 The application reads video footage, extracts individual frames, and classifies each frame as either **suspicious** or **normal** with a confidence probability. If more than 10 consecutive frames are flagged as suspicious with over 80% confidence, the system raises an alert.
-
----
-
-##  Problem Statement
-
-State CCTV Control Rooms receive feeds from thousands of cameras across cities. It is physically impossible for human operators to monitor all feeds in real time. Delayed detection of suspicious activity can lead to crimes going unnoticed until it is too late.
-
-**Key challenges with existing systems:**
-- Low accuracy in automated detection
-- Low efficiency under real-world conditions
-- High dependency on manual monitoring
-- No real-time alerting mechanism
-
----
-
-##  Solution
-
-This application automates the process of suspicious activity detection by:
-
-1. Accepting any CCTV video file as input
-2. Automatically extracting up to 500 frames from the video
-3. Running each frame through a trained ResNet50 deep learning model
-4. Flagging frames where suspicious activity is detected with high confidence
-5. Displaying the results in a clean, easy-to-read GUI
 
 ---
 
@@ -70,25 +40,28 @@ This application automates the process of suspicious activity detection by:
 - **No Internet Required** — Fully offline once installed
 
 ---
+## Project Structure
 
-##  Demo
+```
+Suspicious-Activity-Detection/
+│
+├── SuspiciousDetection.py     # Main application code
+├── model.h5                   # Trained ResNet50 model weights (94 MB)
+├── model_class.json           # Class label mapping {"0": "normal", "1": "suspicious"}
+├── requirements.txt           # All Python dependencies
+├── README.md                  # Project documentation
+├── .gitignore                 # Git ignore rules
+│
+└── videos/                    # Sample CCTV footage for testing
+    ├── normal.mp4             # Normal activity video
+    ├── normal1.mp4            # Normal activity video
+    ├── video2.webm            # Suspicious activity video
+    └── video3.mp4             # Suspicious activity video
+```
 
-### Normal Activity Detected
-When the uploaded video contains normal behavior, the right panel displays:
-```
-No suspicious activity found in given footage
-```
-
-### Suspicious Activity Detected
-When suspicious activity is found, the right panel displays:
-```
-frames/frame117.jpg is predicted as suspicious with probability: 92.45
-
-frames/frame118.jpg is predicted as suspicious with probability: 89.12
-```
+> **Note:** The `frames/` folder is auto-generated when you click "Generate Frames" and does not need to be created manually.
 
 ---
-
 ##  Technologies Used
 
 | Technology | Purpose |
@@ -194,30 +167,23 @@ if consecutive_count > 10:
 This consecutive-frame logic ensures the system does not trigger false alarms on a single ambiguous frame.
 
 ---
+##  Demo
 
-## 📁 Project Structure
-
+### Normal Activity Detected
+When the uploaded video contains normal behavior, the right panel displays:
 ```
-Suspicious-Activity-Detection/
-│
-├── SuspiciousDetection.py     # Main application code
-├── model.h5                   # Trained ResNet50 model weights (94 MB)
-├── model_class.json           # Class label mapping {"0": "normal", "1": "suspicious"}
-├── requirements.txt           # All Python dependencies
-├── README.md                  # Project documentation
-├── .gitignore                 # Git ignore rules
-│
-└── videos/                    # Sample CCTV footage for testing
-    ├── normal.mp4             # Normal activity video
-    ├── normal1.mp4            # Normal activity video
-    ├── video2.webm            # Suspicious activity video
-    └── video3.mp4             # Suspicious activity video
+No suspicious activity found in given footage
 ```
 
-> **Note:** The `frames/` folder is auto-generated when you click "Generate Frames" and does not need to be created manually.
+### Suspicious Activity Detected
+When suspicious activity is found, the right panel displays:
+```
+frames/frame117.jpg is predicted as suspicious with probability: 92.45
+
+frames/frame118.jpg is predicted as suspicious with probability: 89.12
+```
 
 ---
-
 ##  Model Details
 
 | Property | Value |
@@ -235,40 +201,6 @@ Suspicious-Activity-Detection/
 - The model was trained on images of people exhibiting suspicious behavior (face covering, shoplifting-like poses) versus normal behavior
 - Custom classification head added on top of ResNet50 base: `GlobalAveragePooling2D → Dense(2) → Softmax`
 - Weights loaded using `by_name=True` to match the original ImageAI v2.x layer naming convention
-
----
-
-## Advantages
-
-| Advantage | Description |
-|---|---|
-| **High Accuracy** | ResNet50 CNN provides reliable classification results |
-| **High Efficiency** | Processes frames quickly without a GPU |
-| **Fully Automated** | No manual frame-by-frame review needed |
-| **No Existing Database Required** | Works purely on visual analysis, not pre-stored criminal data |
-| **Affordable** | Uses open-source tools only, no paid services |
-| **Offline** | No internet connection required after installation |
-| **Configurable** | Probability threshold and frame count easily adjustable in code |
-
----
-
-##  Limitations
-
-- Currently detects suspicious activity based on **face covering and similar behaviors** — the model is trained on specific patterns
-- Works on **pre-recorded video** only — live CCTV stream integration is not yet implemented
-- Maximum **500 frames** extracted per video
-- Detection accuracy depends on video quality and lighting conditions
-
----
-
-##  Future Scope
-
--  **Live stream support** — Connect directly to IP cameras or RTSP streams
--  **Multi-person tracking** — Detect suspicious activity from multiple people simultaneously
--  **Alert notifications** — Send email or SMS alerts when suspicious activity is detected
--  **Database logging** — Store detection results with timestamps in a database
--  **Web dashboard** — Replace the Tkinter GUI with a browser-based interface
--  **More activity types** — Expand the model to detect fighting, theft, vandalism, etc.
 
 ---
 
